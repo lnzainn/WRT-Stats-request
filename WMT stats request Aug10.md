@@ -1,4 +1,4 @@
-## Create table that contains WCA ID of those whose first competition was between Jan 1, 2023 to Feb, 2024
+## Create table that contains WCA ID of those whose first competition was between Jan 1, 2023 to Feb, 2024 (42970)
 
 ```SQL
 CREATE TABLE newcomers_temp_wcaid AS 
@@ -94,19 +94,18 @@ ORDER BY endMonth;
 |   7   |  1735 |
 
 
-## Percentage of newcomers who attended their second competition within 4 months and 10 days after their first competition
+## Percentage of newcomers who attended their second competition 
 
-```SQL
-ALTER TABLE Competitions
-ADD COLUMN start_date DATE,
-ADD COLUMN end_date DATE;
+```python
+comps_count = comps_count.to_frame('newcomers').reset_index()
+returning_newcomers = comps_count[comps_count['comps'] != 1]['newcomers'].sum()
+total_newcomers = comps_count['newcomers'].sum()
 
-UPDATE Competitions
-SET start_date = STR_TO_DATE(CONCAT(year, '-', month, '-', day), '%Y-%m-%d'),
-    end_date = STR_TO_DATE(CONCAT(year, '-', endMonth, '-', endDay), '%Y-%m-%d');
+returning_perc = (returning_newcomers/total_newcomers) * 100
+print(returning_perc)
 ```
+48.22%
 
-20,723 have attended their second competition while the other 22,247 attended only one!
 
 
 
