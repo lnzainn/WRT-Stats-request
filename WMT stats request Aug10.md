@@ -84,11 +84,10 @@ GROUP BY endMonth
 ORDER BY endMonth;
 ```
 
-[Uploading newcomers_haydenendMonth,total_newcomers
-4,3073
-5,2623
-6,3121
-7,1735
+4	3073
+5	2623
+6	3121
+7	1735
 _two.csv…]()
 
 
