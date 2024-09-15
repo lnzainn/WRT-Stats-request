@@ -1,5 +1,6 @@
 -- Create table that contains WCA ID of those whose first competition was between Jan 1, 2023 to Feb, 2024
 
+---
 CREATE TABLE newcomers_temp_wcaid AS 
 (SELECT personId
 FROM (SELECT xx.personId, xx.competitionId
@@ -13,15 +14,15 @@ where xx.rnk = 1) xy
 JOIN (SELECT id
 FROM Competitions
 WHERE (year = 2023) OR (year = 2024 AND endMonth IN (1, 2))) xyn ON xy.competitionId = xyn.id);
-
+---
 ------
-
+---
 SELECT r.personId, COUNT(DISTINCT(competitionId)) AS comps
 FROM Results r
 JOIN newcomers_temp_wcaid n ON r.personId = n.personId
 
 GROUP BY personId;
-
+---
 Then export this as CSV and load it into Pandas 
 
 --------
