@@ -1,4 +1,4 @@
-[newcomers_hayden_two.csv](https://github.com/user-attachments/files/17007306/newcomers_hayden_two.csv)## Create table that contains WCA ID of those whose first competition was between Jan 1, 2023 to Feb, 2024
+## Create table that contains WCA ID of those whose first competition was between Jan 1, 2023 to Feb, 2024
 
 ```SQL
 CREATE TABLE newcomers_temp_wcaid AS 
