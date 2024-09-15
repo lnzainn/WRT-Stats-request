@@ -94,4 +94,16 @@ ORDER BY endMonth;
 |   7   |  1735 |
 
 
+## Percentage of newcomers who attended their second competition within 4 months and 10 days after their first competition
+
+```SQL
+ALTER TABLE Competitions
+ADD COLUMN start_date DATE,
+ADD COLUMN end_date DATE;
+
+UPDATE Competitions
+SET start_date = STR_TO_DATE(CONCAT(year, '-', month, '-', day), '%Y-%m-%d'),
+    end_date = STR_TO_DATE(CONCAT(year, '-', endMonth, '-', endDay), '%Y-%m-%d');
+```
+
 
