@@ -106,4 +106,7 @@ SET start_date = STR_TO_DATE(CONCAT(year, '-', month, '-', day), '%Y-%m-%d'),
     end_date = STR_TO_DATE(CONCAT(year, '-', endMonth, '-', endDay), '%Y-%m-%d');
 ```
 
+20,723 have attended their second competition while the other 22,247 attended only one!
+
+
 
