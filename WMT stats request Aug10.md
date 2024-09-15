@@ -1,4 +1,4 @@
--- Create table that contains WCA ID of those whose first competition was between Jan 1, 2023 to Feb, 2024
+[newcomers_hayden_two.csv](https://github.com/user-attachments/files/17007306/newcomers_hayden_two.csv)## Create table that contains WCA ID of those whose first competition was between Jan 1, 2023 to Feb, 2024
 
 ```SQL
 CREATE TABLE newcomers_temp_wcaid AS 
@@ -50,5 +50,46 @@ plt.show()
 ```
 
 ![WMT](https://github.com/user-attachments/assets/c337f604-a4e4-48d3-87b2-943e20309a5b)
+
+
+## Total number of newcomers who attended competitions between April - July 2024
+
+```SQL
+CREATE TABLE four_mon AS 
+(SELECT competitionId, COUNT(DISTINCT(personId)) AS newcomers
+FROM (SELECT xx.personId, xx.competitionId
+FROM (SELECT x.personId, x.competitionId, 
+	  ROW_NUMBER() OVER (PARTITION BY x.personid ORDER BY c.year, c.month, c.day) as 'rnk'
+	  FROM (SELECT personId, competitionId
+			FROM Results r
+			GROUP BY personId, competitionId) x
+            JOIN Competitions c on x.competitionId = c.id) xx
+where xx.rnk = 1) xyy
+WHERE competitionId IN (SELECT id
+FROM Competitions 
+WHERE year = 2024 AND endmonth IN (4, 5, 6, 7))
+
+GROUP BY competitionId);
+```
+
+Then...
+
+```SQL
+SELECT endMonth, SUM(newcomers) AS total_newcomers
+FROM (SELECT fm.*, c.endMonth
+      FROM four_mon fm
+      JOIN Competitions c ON fm.competitionId = c.id) x
+      
+GROUP BY endMonth
+ORDER BY endMonth;
+```
+
+[Uploading newcomers_haydenendMonth,total_newcomers
+4,3073
+5,2623
+6,3121
+7,1735
+_two.csv…]()
+
 
 
