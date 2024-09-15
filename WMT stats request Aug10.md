@@ -84,11 +84,12 @@ GROUP BY endMonth
 ORDER BY endMonth;
 ```
 
-4	3073
-5	2623
-6	3121
-7	1735
-_two.csv…]()
+| Month | Newcomers |
+|-------|-------|
+|   4   |  3073 |
+|   5   |  2623 |
+|   6   |  3121 |
+|   7   |  1735 |
 
 
 
