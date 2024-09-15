@@ -34,6 +34,8 @@ df['comps'].agg(['mean', 'median'])
 Mean: 2.42
 Median: 1
 
+comps_count = df['comps'].value_counts().sort_index()
+
 plt.figure(figsize=(12,6))
 plt.bar(comps_count.index, comps_count.values, color='skyblue')
 plt.xlabel('Number of Competitions Attended')
