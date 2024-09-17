@@ -51,7 +51,6 @@ plt.tight_layout()
 plt.show()
 ```
 
-![WMT](https://github.com/user-attachments/assets/c337f604-a4e4-48d3-87b2-943e20309a5b)
 
 
 ## Total number of newcomers who attended competitions between April - July 2024
@@ -105,6 +104,51 @@ returning_perc = (returning_newcomers/total_newcomers) * 100
 print(returning_perc)
 ```
 48.22%
+
+## Second competition was not on the same month as their first competition
+
+```SQL
+CREATE TABLE f_s
+AS (SELECT nt.personId, xc.competitionId AS first_comp, xd.competitionId AS second_comp
+FROM newcomers_temp_wcaid nt
+JOIN (SELECT xx.personId, xx.competitionId
+      FROM (SELECT x.personId, x.competitionId, 
+	        ROW_NUMBER() OVER (PARTITION BY x.personid ORDER BY c.year, c.month, c.day) as 'rnk'
+		    FROM (SELECT personId, competitionId
+			      FROM Results r
+			      GROUP BY personId, competitionId) x
+            JOIN Competitions c on x.competitionId = c.id) xx
+where xx.rnk = 1) xc ON nt.personId = xc.personId
+
+JOIN (SELECT xx.personId, xx.competitionId
+      FROM (SELECT x.personId, x.competitionId, 
+	        ROW_NUMBER() OVER (PARTITION BY x.personid ORDER BY c.year, c.month, c.day) as 'rnk'
+			FROM (SELECT personId, competitionId
+			      FROM Results r
+			      GROUP BY personId, competitionId) x
+            JOIN Competitions c on x.competitionId = c.id) xx
+where xx.rnk = 2) xd ON nt.personId = xd.personId);
+```
+
+Then narrow the search down
+
+```SQL
+SELECT x.personId, x.first_comp, x.second_comp, x.end_date AS f_comp_endd, x.start_date AS s_comp_startd
+FROM (SELECT fs.*, c1.end_date, c2.start_date
+FROM f_s fs
+JOIN Competitions c1 ON fs.first_comp = c1.id 
+JOIN Competitions c2 ON fs.second_comp = c2.id) x
+
+WHERE LEFT(x.end_date, 7) <> LEFT(x.start_date, 7);
+```
+Same query but with count function included
+```SQL
+SELECT COUNT(DISTINCT(personId))
+```
+
+This equals to 19840 people
+
+
 
 
 
